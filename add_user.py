@@ -75,7 +75,7 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     os.system(f"trojan-go -api-addr 127.0.0.1:10000 -api set -modify-profile -target-password {_password_} -ip-limit {user_limit}")
 
     link = f'trojan://{_password_}@{domain}:{port}#{name}'
-    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month"
+    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month\nLimit Ip: {user_limit}"
     await update.message.reply_html(link)
     await update.message.reply_html(data_text)
     await bot.send_message(chat_id=data_channel,text=data_text,parse_mode=constants.ParseMode.HTML)

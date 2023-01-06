@@ -4,11 +4,13 @@ import os
 import logging
 from datetime import date
 import time
+import subprocess
+import qrcode
 
 from telegram import Update, Bot, constants
 from telegram.ext import ApplicationBuilder, ContextTypes, filters, MessageHandler
 
-domain = "tjgo.itenshi.tk"
+domain = "ds.itenshi.tk"
 port = "443"
 json_path = "/root/tj/data.json"
 log_path = "/etc/logs/trojan-gfw/logs.log"
@@ -59,7 +61,7 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
     today = date.today()
     d = today.strftime("%b-%d-%Y")
-    _password_ = str(uuid.uuid4())
+    _password_ = uuid.uuid4()
     
     json_dict = get_json_data(json_path)
     json_dict[_password_] = {
@@ -71,23 +73,35 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         }
     write_json_data(json_path,json_dict)
 
-    os.system(f"trojan-go -api-addr 127.0.0.1:10000 -api set -add-profile -target-password {_password_}")
-    os.system(f"trojan-go -api-addr 127.0.0.1:10000 -api set -modify-profile -target-password {_password_} -ip-limit {user_limit}")
+    subprocess.run(['trojan-go', '-api-addr', '127.0.0.1:10000', '-api', 'set', '-add-profile', '-target-password', _password_])
+    subprocess.run(['trojan-go', '-api-addr', '127.0.0.1:10000', '-api', 'set', '-modify-profile', '-target-password', _password_, '-ip-limit', user_limit])
 
     link = f'trojan://{_password_}@{domain}:{port}#{name}'
-    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month\nLimit Ip: {user_limit}"
+    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month"
     await update.message.reply_html(link)
     await update.message.reply_html(data_text)
     await bot.send_message(chat_id=data_channel,text=data_text,parse_mode=constants.ParseMode.HTML)
+    await bot.send_photo(chat_id=update.message.chat.id,photo=qrcode.make(link))
+    
+async def renew_log_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await bot.send_document(data_channel,log_path)
 
-def del_profile(password):
-    os.system(f"trojan-go -api-addr 127.0.0.1:10000 -api set -delete-profile -target-password {password}")
+
+async def del_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    _password = update.message.text.replace("$del ","")
+    subprocess.run(['trojan-go', '-api-addr', '127.0.0.1:10000', '-api', 'set', '-delete-profile', '-target-password', _password])
+    data_dict = get_json_data(json_path)
+    del data_dict[_password]
+    write_json_data(json_path,data_dict)
+    await update.message.reply_html("Done")
 
 def main() -> None:
     # Create the Application and pass it your bot's token.
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     application.add_handler(MessageHandler(filters.User(user_id=owner) & ~filters.UpdateType.EDITED_MESSAGE & filters.Regex("^\$add "),add_profile))
+    application.add_handler(MessageHandler(filters.User(user_id=owner) & ~filters.UpdateType.EDITED_MESSAGE & filters.Regex("^\$del "),del_profile))
+    application.add_handler(MessageHandler(filters.User(user_id=owner) & ~filters.UpdateType.EDITED_MESSAGE & filters.Regex("^\$log"),renew_log_file))
     application.run_polling()
-    
+
 if __name__ == "__main__":
     main()

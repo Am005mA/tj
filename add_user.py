@@ -8,7 +8,7 @@ import time
 from telegram import Update, Bot, constants
 from telegram.ext import ApplicationBuilder, ContextTypes, filters, MessageHandler
 
-domain = "ds.itenshi.tk"
+domain = "tjgo.itenshi.tk"
 port = "443"
 json_path = "/root/tj/data.json"
 log_path = "/etc/logs/trojan-gfw/logs.log"
@@ -33,7 +33,7 @@ def get_json_data(path):
 
 def write_json_data(path,data):
     with open(path, "w") as outfile:
-        outfile.write(data)
+        json.dump(data, outfile)
     return True
     
 async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

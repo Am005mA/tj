@@ -6,7 +6,7 @@
   "remote_port": 80,
   "log_level": 1,
   "log_file": "/etc/logs/trojan-gfw/logs.log",
-  "password": ["8e3c1c22-f85b-4742-846e-23caf64aefaf"],
+  "password": ["495ce3db-36d2-45f6-984d-69f42df58e24"],
   "disable_http_check": false,
   "udp_timeout": 60,
   "ssl": {
@@ -85,8 +85,8 @@
   },
   "api": {
     "enabled": true,
-    "api_addr": "127.0.0.1",
-    "api_port": 10000,
+    "api_addr": "localhost",
+    "api_port": 1321,
     "ssl": {
       "enabled": false,
       "key": "",

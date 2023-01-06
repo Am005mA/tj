@@ -10,7 +10,7 @@ import qrcode
 from telegram import Update, Bot, constants
 from telegram.ext import ApplicationBuilder, ContextTypes, filters, MessageHandler
 
-domain = "tj.itenshi.tk"
+domain = "teirh.itenshi.tk"
 port = "443"
 json_path = "/root/tj/data.json"
 log_path = "/etc/logs/trojan-gfw/logs.log"

@@ -1,0 +1,5 @@
+httpx==0.23.0
+tornado==6.2
+cachetools==5.2.0
+APScheduler==3.9.1
+python-telegram-bot==20.0a4

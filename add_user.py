@@ -59,7 +59,7 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
     today = date.today()
     d = today.strftime("%b-%d-%Y")
-    _password_ = uuid.uuid4()
+    _password_ = str(uuid.uuid4())
     
     json_dict = get_json_data(json_path)
     json_dict[_password_] = {

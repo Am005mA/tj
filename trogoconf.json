@@ -6,7 +6,7 @@
   "remote_port": 80,
   "log_level": 1,
   "log_file": "/etc/logs/trojan-gfw/logs.log",
-  "password": ["495ce3db-36d2-45f6-984d-69f42df58e24"],
+  "password": ["217cefcb-ea17-4e54-8f3a-301ce3f91708"],
   "disable_http_check": false,
   "udp_timeout": 60,
   "ssl": {
@@ -44,14 +44,14 @@
     "bypass": [],
     "proxy": [],
     "block": [],
-    "default_policy": "bypass",
+    "default_policy": "proxy",
     "domain_strategy": "as_is",
     "geoip": "$PROGRAM_DIR$/geoip.dat",
     "geosite": "$PROGRAM_DIR$/geosite.dat"
   },
   "websocket": {
-    "enabled": true,
-    "path": "/",
+    "enabled": false,
+    "path": "",
     "host": ""
   },
   "shadowsocks": {
@@ -85,8 +85,8 @@
   },
   "api": {
     "enabled": true,
-    "api_addr": "localhost",
-    "api_port": 1321,
+    "api_addr": "127.0.0.1",
+    "api_port": 10000,
     "ssl": {
       "enabled": false,
       "key": "",

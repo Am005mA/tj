@@ -77,15 +77,14 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     subprocess.run(['trojan-go', '-api-addr', '127.0.0.1:10000', '-api', 'set', '-modify-profile', '-target-password', _password_, '-ip-limit', user_limit])
 
     link = f'trojan://{_password_}@{domain}:{port}#{name}'
-    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month\nLimit Ip: {user_limit}"
+    data_text = f"name: {name}\npassword: <code>{_password_}</code>\nDate: {d}\nDuration: {duration} month\nLimit user: {user_limit}"
     await update.message.reply_html(link)
     await update.message.reply_html(data_text)
     await bot.send_message(chat_id=data_channel,text=data_text,parse_mode=constants.ParseMode.HTML)
     await bot.send_photo(chat_id=update.message.chat.id,photo=qrcode.make(link))
-    
-async def renew_log_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await bot.send_document(data_channel,log_path)
 
+async def renew_log_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await bot.send_document(chat_id=data_channel,document=log_path)
 
 async def del_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     _password = update.message.text.replace("$del ","")

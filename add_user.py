@@ -81,10 +81,13 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await update.message.reply_html(link)
     await update.message.reply_html(data_text)
     await bot.send_message(chat_id=data_channel,text=data_text,parse_mode=constants.ParseMode.HTML)
-    await bot.send_photo(chat_id=update.message.chat.id,photo=qrcode.make(link))
+    qrcode.make(link).save('/root/tj/qrcode.png')
+    await bot.send_photo(chat_id=update.message.chat.id,photo=open("/root/tj/qrcode.png","rb"))
+    os.remove('/root/tj/qrcode.png')
 
 async def renew_log_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await bot.send_document(chat_id=data_channel,document=log_path)
+    await bot.send_document(chat_id=data_channel,document=open(log_path,"rb"))
+    subprocess.run(['truncate', '-s', '0', log_path])
 
 async def del_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     _password = update.message.text.replace("$del ","")

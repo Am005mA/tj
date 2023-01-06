@@ -6,7 +6,7 @@
   "remote_port": 80,
   "log_level": 1,
   "log_file": "/etc/logs/trojan-gfw/logs.log",
-  "password": [""],
+  "password": ["8e3c1c22-f85b-4742-846e-23caf64aefaf"],
   "disable_http_check": false,
   "udp_timeout": 60,
   "ssl": {

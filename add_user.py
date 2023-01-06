@@ -63,8 +63,8 @@ async def add_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     
     json_dict = get_json_data(json_path)
     json_dict[_password_] = {
-        'name':name,
-        'user_limit':user_limit,
+        "name":name,
+        "user_limit":user_limit,
         "duration":duration,
         "today":d,
         "exp":time.time()+(duration*30*24*60*60)

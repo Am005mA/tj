@@ -2,7 +2,7 @@
   "run_type": "server",
   "local_addr": "0.0.0.0",
   "local_port": 443,
-  "remote_addr": "tj.itenshi.tk",
+  "remote_addr": "teirh.itenshi.tk",
   "remote_port": 80,
   "log_level": 1,
   "log_file": "/etc/logs/trojan-gfw/logs.log",
@@ -12,13 +12,13 @@
   "ssl": {
     "verify": true,
     "verify_hostname": true,
-    "cert": "/etc/letsencrypt/live/tj.itenshi.tk/fullchain.pem",
-    "key": "/etc/letsencrypt/live/tj.itenshi.tk/privkey.pem",
+    "cert": "/etc/letsencrypt/live/teirh.itenshi.tk/fullchain.pem",
+    "key": "/etc/letsencrypt/live/teirh.itenshi.tk/privkey.pem",
     "key_password": "",
     "cipher": "",
     "curves": "",
     "prefer_server_cipher": false,
-    "sni": "tj.itenshi.tk",
+    "sni": "teirh.itenshi.tk",
     "alpn": [
       "http/1.1"
     ],
